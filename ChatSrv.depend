@@ -1,0 +1,38 @@
+# depslib dependency file v1.0
+1433094519 source:/home/srainsdon/Downloads/ChatSrv/client.cpp
+	"client.h"
+
+1433094519 /home/srainsdon/Downloads/ChatSrv/client.h
+	<iostream>
+	<cstdio>
+	<cstdlib>
+
+1433094519 source:/home/srainsdon/Downloads/ChatSrv/main.cpp
+	<iostream>
+	"mythread.h"
+	"server.h"
+
+1433094519 /home/srainsdon/Downloads/ChatSrv/mythread.h
+	<iostream>
+	<string>
+	<pthread.h>
+	<unistd.h>
+	<cstdlib>
+
+1433094519 /home/srainsdon/Downloads/ChatSrv/server.h
+	<iostream>
+	<vector>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<sys/socket.h>
+	<netinet/in.h>
+	"mythread.h"
+	"client.h"
+
+1433115417 source:/home/srainsdon/Downloads/ChatSrv/mythread.cpp
+	"mythread.h"
+
+1433114879 source:/home/srainsdon/Downloads/ChatSrv/server.cpp
+	"server.h"
+

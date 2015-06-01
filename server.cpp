@@ -37,7 +37,7 @@ Server::Server() {
 		When it happens, create a new thread to handle the new client.
 */
 void Server::AcceptAndDispatch() {
-  
+
   Client *c;
   MyThread *t;
 
@@ -71,10 +71,10 @@ void *Server::HandleClient(void *args) {
 
   //Add client in Static clients <vector> (Critical section!)
   MyThread::LockMutex((const char *) c->name);
-  
+
     //Before adding the new client, calculate its id. (Now we have the lock)
     c->SetId(Server::clients.size());
-    sprintf(buffer, "Client n.%d", c->id);
+    sprintf(buffer, "Device n.%d", c->id);
     c->SetName(buffer);
     cout << "Adding client with id: " << c->id << endl;
     Server::clients.push_back(*c);
@@ -89,12 +89,12 @@ void *Server::HandleClient(void *args) {
     if(n == 0) {
       cout << "Client " << c->name << " diconnected" << endl;
       close(c->sock);
-      
+
       //Remove client in Static clients <vector> (Critical section!)
       MyThread::LockMutex((const char *) c->name);
 
         index = Server::FindClientIndex(c);
-        cout << "Erasing user in position " << index << " whose name id is: " 
+        cout << "Erasing user in position " << index << " whose name id is: "
 	  << Server::clients[index].id << endl;
         Server::clients.erase(Server::clients.begin() + index);
 
@@ -107,8 +107,9 @@ void *Server::HandleClient(void *args) {
     }
     else {
       //Message received. Send to all clients.
-      snprintf(message, sizeof message, "<%s>: %s", c->name, buffer); 
-      cout << "Will send to all: " << message << endl;
+      snprintf(message, sizeof message, "<%s>: %s", c->name, buffer);
+      cout << "::Message::" << endl << "From: " << c->name << endl << "Buffer: " << buffer;
+      //cout << "Will send to all: |" << message << "|" << endl;
       Server::SendToAll(message);
     }
   }
@@ -122,13 +123,13 @@ void Server::SendToAll(char *message) {
 
   //Acquire the lock
   MyThread::LockMutex("'SendToAll()'");
- 
+
     for(size_t i=0; i<clients.size(); i++) {
       n = send(Server::clients[i].sock, message, strlen(message), 0);
       cout << n << " bytes sent." << endl;
     }
-   
-  //Release the lock  
+
+  //Release the lock
   MyThread::UnlockMutex("'SendToAll()'");
 }
 
